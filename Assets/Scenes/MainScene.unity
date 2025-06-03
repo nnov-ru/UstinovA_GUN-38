@@ -223,6 +223,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2693649348536686427, guid: 3a57844bb76c92e46906869e683a19f8, type: 3}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2942225003572951195, guid: 3a57844bb76c92e46906869e683a19f8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 14.2
@@ -263,9 +267,41 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3332433841781972833, guid: 3a57844bb76c92e46906869e683a19f8, type: 3}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3935598563419301483, guid: 3a57844bb76c92e46906869e683a19f8, type: 3}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4627245843218253874, guid: 3a57844bb76c92e46906869e683a19f8, type: 3}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6413084483054290645, guid: 3a57844bb76c92e46906869e683a19f8, type: 3}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7450241841385128658, guid: 3a57844bb76c92e46906869e683a19f8, type: 3}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8028573297461431736, guid: 3a57844bb76c92e46906869e683a19f8, type: 3}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8682761319123077777, guid: 3a57844bb76c92e46906869e683a19f8, type: 3}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8793304277085073026, guid: 3a57844bb76c92e46906869e683a19f8, type: 3}
       propertyPath: m_Name
       value: StartALevel
+      objectReference: {fileID: 0}
+    - target: {fileID: 9202378244691228228, guid: 3a57844bb76c92e46906869e683a19f8, type: 3}
+      propertyPath: m_Convex
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
