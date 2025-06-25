@@ -18,16 +18,16 @@ MonoBehaviour:
     Clip: {fileID: 0}
   - Mult: 2
     Text: Grand Destructor !
-    Clip: {fileID: 7400000, guid: 2cc587680b1c2de458308b50a870cfc9, type: 2}
+    Clip: {fileID: 7400000, guid: 5daf69f5eba3b5a4ebf514e720d7d145, type: 2}
   - Mult: 3
     Text: No one will be able to repair this !
-    Clip: {fileID: 7400000, guid: e34ea2ae3cc668445bcad489fdad744b, type: 2}
+    Clip: {fileID: 7400000, guid: 9addd6bde6abc194db73f26580d356d4, type: 2}
   - Mult: 4
     Text: Impossible one !
-    Clip: {fileID: 7400000, guid: 1ed7a6d85ed608446b4235996a57d4f6, type: 2}
+    Clip: {fileID: 7400000, guid: 78be2e36a1b6d074b9e29c96f24e210c, type: 2}
   - Mult: 5
     Text: Mighty one !
-    Clip: {fileID: 7400000, guid: 4ffe1afc44ee95f4fad8fcad8b926594, type: 2}
+    Clip: {fileID: 7400000, guid: 83751757c7eecdc4785e32a81b84822e, type: 2}
   - Mult: 6
     Text: CARNAGE !!!
-    Clip: {fileID: 7400000, guid: d45af3d7acfaedc41aa7d6c0607e6e9c, type: 2}
+    Clip: {fileID: 7400000, guid: e68aa1a46fadea24094a238eabccba51, type: 2}
