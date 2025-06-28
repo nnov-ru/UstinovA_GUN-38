@@ -226,6 +226,7 @@ GameObject:
   - component: {fileID: 6133474574826808468}
   - component: {fileID: 7543510422636678042}
   - component: {fileID: 4240967939807852436}
+  - component: {fileID: 896154572766088729}
   m_Layer: 5
   m_Name: Message
   m_TagString: Untagged
@@ -349,6 +350,26 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!111 &896154572766088729
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2624307002612683800}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 5daf69f5eba3b5a4ebf514e720d7d145, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 9addd6bde6abc194db73f26580d356d4, type: 2}
+  - {fileID: 7400000, guid: 56afff567a7e7054ea732216fd19ea96, type: 2}
+  - {fileID: 7400000, guid: 88bcccda2aa24cd4e85cfbeea049892c, type: 2}
+  - {fileID: 7400000, guid: 83751757c7eecdc4785e32a81b84822e, type: 2}
+  - {fileID: 7400000, guid: e68aa1a46fadea24094a238eabccba51, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!1 &3270446580573417279
 GameObject:
   m_ObjectHideFlags: 0
@@ -1431,6 +1452,7 @@ GameObject:
   - component: {fileID: 4275983867021478978}
   - component: {fileID: 8795239395111808265}
   - component: {fileID: 8483243586830738481}
+  - component: {fileID: 1387422174292028267}
   m_Layer: 5
   m_Name: IndicatorBackground
   m_TagString: Untagged
@@ -1497,6 +1519,27 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!95 &1387422174292028267
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8872189474181563525}
+  m_Enabled: 0
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 6a6921e937808564ebe8048317da55ee, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &8970992895790502637
 GameObject:
   m_ObjectHideFlags: 0

@@ -217,6 +217,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: CarnageIndicator
       objectReference: {fileID: 0}
+    - target: {fileID: 4240967939807852436, guid: c10d5066fa9ccd14292182ffc9f9f335, type: 3}
+      propertyPath: m_margin.x
+      value: -46.12317
+      objectReference: {fileID: 0}
+    - target: {fileID: 4240967939807852436, guid: c10d5066fa9ccd14292182ffc9f9f335, type: 3}
+      propertyPath: m_margin.z
+      value: -62.266907
+      objectReference: {fileID: 0}
     - target: {fileID: 4939987956899897437, guid: c10d5066fa9ccd14292182ffc9f9f335, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
