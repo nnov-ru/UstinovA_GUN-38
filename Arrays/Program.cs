@@ -1,63 +1,54 @@
-﻿using System.ComponentModel.Design;
-
-internal class Program
-{
-    private static void Main(string[] args)
+﻿namespace Arrays {
+    internal class Program
     {
-        while (true) 
+        static void Main(string[] args)
         {
-        Console.WriteLine("Peace be with you, Friend! It is Bit-by-Bit Calculator speaking. Would you please input the first DECIMAL number of your bit-by-bit calculation:"); 
-        if (!int.TryParse(Console.ReadLine(), out var a))
-        {
-            Console.WriteLine("It's not a DECIMAL number, so either you've misread my greetings or you're making fun of me, wasting my time... Please try again, but only after restarting");
-            return;
-        }
-        Console.WriteLine($"What you've inputted can be shown as a BINARY number: {Convert.ToString(a, 2)}");
-        
-        Console.WriteLine("Got you! Would you please input now the last DECIMAL number of your calculation:");
-        if (!int.TryParse(Console.ReadLine(), out var b))
-        {
-            Console.WriteLine("It's not a DECIMAL number, so either you've misread my suggestion or you're making fun of me, wasting my time... Please try again, but only after restarting");
-            return;
-        }
-        Console.WriteLine($"What you've inputted can be shown as a BINARY number: {Convert.ToString(b, 2)}");
+            var a1 = new int[8] { 0, 1, 1, 2, 3, 5, 8, 13 };
+            Console.WriteLine(string.Join(", ", a1));
 
-        Console.WriteLine("Got you! Would you please give a sign of a logical bit-by-bit operation to be calculated.");
-        Console.WriteLine("Please limit yourself by   &   |   ^   operation signs. Where:");
-        Console.WriteLine("  & means bit-by-bit checking whether the inputted numbers are equal");
-        Console.WriteLine("  | means bit-by-bit checking whether any of the inputted numbers' bits pairs contains truth");
-        Console.WriteLine("  ^ means bit-by-bit checking whether the inputted numbers are not equal");
-        var s = Console.ReadLine();      
-        if (s != "&" && s != "|" && s != "^")
-        { 
-           Console.WriteLine("Wrong operation - there's a certain misunderstanding here now. Calculator is stopping working now. Please restart after you come to your senses!"); 
-            return;
-        }
+            var a2 = new string[12] { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" };
+            Console.WriteLine(string.Join(", ", a2));
 
-            switch (s[0])
+            var a3 = new int[3, 3] {
+                        {2, 3, 4 },
+                        {4, 9, 16 },
+                        {8, 27, 64 }
+            };
+            for (int i = 0; i < 3; i++)
             {
-                case '&':
-                    Console.WriteLine($"Decimal Result of {a} & {b} = {a & b}");
-                    Console.WriteLine($"Binary Result of {a} & {b} = {Convert.ToString(a & b, 2)}");
-                    Console.WriteLine($"Hexadecimal Result of {a} & {b} = {(a & b):X}");
-                    Console.WriteLine();
-                    break;
-                case '|':
-                    Console.WriteLine($"Decimal Result of {a} | {b} = {a | b}");
-                    Console.WriteLine($"Binary Result of {a} | {b} = {Convert.ToString(a | b, 2)}");
-                    Console.WriteLine($"Hexadecimal Result of {a} | {b} = {(a | b):X}");
-                    Console.WriteLine(); 
-                    break;
-                case '^':
-                    Console.WriteLine($"Decimal Result of {a} ^ {b} = {a ^ b}");
-                    Console.WriteLine($"Binary Result of {a} ^ {b} = {Convert.ToString(a ^ b, 2)}");
-                    Console.WriteLine($"Hexadecimal Result of {a} ^ {b} = {(a ^ b):X}");
-                    Console.WriteLine(); 
-                    break;
-                default:
-                    Console.WriteLine("Wrong operation - there's a certain misunderstanding here now. Calculator is stopping working now. Please restart after you come to your senses!");
-                    break;
+                for (int j = 0; j < 3; j++)
+                {
+                    Console.Write(a3[i, j]+ " ");
+                }
+                Console.WriteLine();
             }
-        }    
+            var a4 = new double[3][] {
+            new double[5] {1, 2, 3, 4, 5 },
+            new double[2] {Math.E, Math.PI },
+            new double[4] {Math.Log10(1), Math.Log10(10), Math.Log10(100), Math.Log10(1000) }
+            };
+            Console.WriteLine(string.Join(", ", a4[0]));
+            Console.WriteLine(string.Join(", ", a4[1]));
+            Console.WriteLine(string.Join(", ", a4[2]));
+
+            int[] array = { 1, 2, 3, 4, 5 };
+            int[] array2 = { 7, 8, 9, 10, 11, 12, 13 };
+            var result = CopyArrays(array, array2, 3);
+            Console.WriteLine(string.Join(", ", result));
+
+            //string[] sample = { "", "" };
+            ResizeArray(ref array, 10);
+            Console.WriteLine(string.Join(", ", array));
+        }
+        static int[] CopyArrays(int[] source, int[] destination, int count)
+        { 
+        Array.Copy(source, destination, count);
+        return destination;
+        }
+        static int[] ResizeArray(ref int[] oldarray, int newSize)
+        {
+        Array.Resize(ref oldarray, newSize);
+        return oldarray;
+        }
     }
 }
