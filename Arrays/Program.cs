@@ -1,4 +1,4 @@
-﻿namespace Cicles {
+﻿namespace Cycles {
     internal class Program
     {
         static void Main(string[] args)
