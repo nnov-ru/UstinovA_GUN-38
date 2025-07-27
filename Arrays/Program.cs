@@ -36,9 +36,18 @@
             var result = CopyArrays(array, array2, 3);
             Console.WriteLine(string.Join(", ", result));
 
-            //string[] sample = { "", "" };
             ResizeArray(ref array, 10);
             Console.WriteLine(string.Join(", ", array));
+            
+            int value = 150;
+            int result = 0;
+            int index = 0;
+
+            do
+            {
+                result += array[index];
+            } while (result != value);
+            Console.Write(result.Tostring());
         }
         static int[] CopyArrays(int[] source, int[] destination, int count)
         { 
