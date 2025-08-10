@@ -75,5 +75,7 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 /MyFirstApp/
 /Arrays/
-#/Classes/
-/Collections/
+/Classes/
+#/Collections/
+Collections/Node.cs
+Collections/Program1.cs
