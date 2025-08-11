@@ -76,7 +76,5 @@ crashlytics-build.properties
 /MyFirstApp/
 /Arrays/
 /Classes/
-#/Collections/
-Collections/Node.cs
-Collections/Program1.cs
-/Strings/
+/Collections/
+#/Strings/
