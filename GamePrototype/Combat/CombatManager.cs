@@ -1,4 +1,5 @@
-﻿using GamePrototype.Units;
+﻿using GamePrototype.Items.EquipItems;
+using GamePrototype.Units;
 namespace GamePrototype.Combat
 {
     public sealed class CombatManager
@@ -11,7 +12,14 @@ namespace GamePrototype.Combat
             Console.WriteLine(GetCombatString());
             while (player.Health > 0 && enemy.Health > 0)
             {
-                if (Enum.TryParse<RockPaperScissors>(Console.ReadLine(), out var rockpaperscissors))
+                string input = Console.ReadLine();
+                if (!int.TryParse(input, out int choice) || choice < 1 || choice > 3)
+                {
+                    Console.WriteLine("Invalid choice! Re-read rules please and asap, Goblin doesn't wait for you !");
+                    Console.WriteLine(GetCombatString());
+                    continue;
+                }
+                if (Enum.TryParse<RockPaperScissors>(input, out var rockpaperscissors))
                 {
                     HandleCombatInput(player, enemy, rockpaperscissors);
                 }
@@ -41,33 +49,50 @@ namespace GamePrototype.Combat
             {
                 //player hits
                 case RockPaperScissors.Rock when enemyinput == RockPaperScissors.Scissors :
-                    ApplyDamage(player, enemy);
+                    SufferDamage(player, enemy);
                     break;
                 case RockPaperScissors.Paper when enemyinput == RockPaperScissors.Rock :
-                    ApplyDamage(player, enemy);
+                    SufferDamage(player, enemy);
                     break;
                 case RockPaperScissors.Scissors when enemyinput == RockPaperScissors.Paper :
-                    ApplyDamage(player, enemy);
+                    SufferDamage(player, enemy);
                     break;
                 //enemy hits
                 case RockPaperScissors.Scissors when enemyinput == RockPaperScissors.Rock :
-                    ApplyDamage(enemy, player);
+                    SufferDamage(enemy, player);
                     break;
                 case RockPaperScissors.Rock when enemyinput == RockPaperScissors.Paper :
-                    ApplyDamage(enemy, player);
+                    SufferDamage(enemy, player);
                     break;
                 case RockPaperScissors.Paper when enemyinput == RockPaperScissors.Scissors :
-                    ApplyDamage(enemy, player);
+                    SufferDamage(enemy, player);
                     break;
                 default:
                     Console.WriteLine("Nobody received a hit. Type 1 or 2 or 3 again");
                     break;
             }
         }
-        private void ApplyDamage(Unit attacker, Unit attacked)
+        private void SufferDamage(Unit attacker, Unit attacked)
         {
-            attacked.ApplyDamage(attacker.GetUnitDamage());
-            Console.WriteLine($"{attacker.Name} hits {attacked.Name}. {attacked.Name}'s health: {attacked.Health} / {attacked.MaxHealth}");
+            attacked.SufferDamage(attacker.DoUnitDamage());
+            if (attacker is Player aer && aer.EquippedWeapon is Weapon weapon)
+            {
+                weapon.ReduceDurability(1);
+            }
+            if (attacker is Player aer1 && aer1.EquippedRangeWeapon is RangeWeapon rangeweapon)
+            {
+                rangeweapon.ReduceDurability(1);
+            }
+            if (attacked is Player aed && aed.EquippedArmor is Armor armor)
+            {
+                armor.ReduceDurability(1);
+            }
+            if (attacked is Player aed1 && aed1.EquippedHelmet is Helmet helmet)
+            {
+                helmet.ReduceDurability(1);
+            }
+            Console.WriteLine($"{attacker.Name} hits {attacked.Name}. " +
+                                $"{attacked.Name}'s health: {attacked.Health} / {attacked.MaxHealth}");
             if (attacked.Health == 0)
             {
                 Console.WriteLine($"{attacked.Name} is dead !");

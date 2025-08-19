@@ -1,17 +1,19 @@
 ﻿using GamePrototype.Dungeon;
 using GamePrototype.Items.ConsumItems;
+using GamePrototype.Utils.Factories;
 
-namespace GamePrototype.Utils
+namespace GamePrototype.Utils.Builders
 {
-    public static class DungeonBuilder
+    public class DungeonBuilderHard : DungeonBuilder
     {
-        public static DungeonRoom BuildDungeon()
+        public DungeonBuilderHard(UnitFactory unitfactory) : base(unitfactory) { }
+        public override DungeonRoom BuildDungeon()
         {
             var entrance = new DungeonRoom("Entrance");
-            var monsterroom = new DungeonRoom("Monster", UnitFactoryDemo.CreateGoblinEnemy());
+            var monsterroom = new DungeonRoom("Monster Room", _unitfactory.CreateEnemy());
             var emptyroom = new DungeonRoom("Empty");
-            var lootroom = new DungeonRoom("Loot1", new Gold());
-            var lootstoneroom = new DungeonRoom("Loot2", new Grindstone("Stone"));
+            var lootroom = new DungeonRoom("There's a Gold Coin here!", new Gold());
+            var lootstoneroom = new DungeonRoom("Here is a useful Grindstone", new Grindstone("Grindstone"));
             var finalroom = new DungeonRoom("Final");
 
             entrance.TrySetDirection(Direction.right, monsterroom);

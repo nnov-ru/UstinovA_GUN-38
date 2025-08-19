@@ -1,4 +1,5 @@
 ﻿using GamePrototype.Items;
+using GamePrototype.Items.ConsumItems;
 
 namespace GamePrototype.Units
 {
@@ -8,13 +9,13 @@ namespace GamePrototype.Units
         private int _health;
         private uint _maxhealth;
         protected uint BaseDamage;
-        protected Inventory Inventory;
+        public Inventory Inventory;
 
         public string Name { get; private set; }
         public int Health
         {
-            get => Math.Max(_health, 0); 
-            protected set => _health = value; 
+            get => _health;
+            protected set => _health = Math.Max(value, 0); 
         }
         public uint MaxHealth => _maxhealth;
         protected Unit(string name, int health, uint maxhealth, uint basedamage)
@@ -25,31 +26,32 @@ namespace GamePrototype.Units
             _maxhealth = maxhealth;
             Inventory = new Inventory(InventorySize);
         }
-        public void ApplyDamage(uint damage)
+        public void SufferDamage(uint damage)
         {
-            _health -= (int)CalculateAppliedDamage(damage);
-            DamageReceivedHandler();
+            Health -= (int)CalculateSufferedDamage(damage);
+            DamageSufferedHandler();
         }
-        protected abstract uint CalculateAppliedDamage(uint damage);
-        protected virtual void DamageReceivedHandler() { }
-        public abstract uint GetUnitDamage();
+        protected abstract uint CalculateSufferedDamage(uint damage);
+        protected virtual void DamageSufferedHandler() { }
+        public abstract uint DoUnitDamage();
         public abstract void HandleCombatCompleted();
         public virtual void AddItemtoInventory(Item item)
         {
             if (!Inventory.TryAdd(item))
             {
-                Console.WriteLine($"Inventory of {Name} is full");
+            
             }
         }
-        public void AddItemfromUnittoInventory(Unit unit) 
+        public virtual void AddItemfromUnittoInventory(Unit unit) 
         {
             for (int i = 0; i < unit.Inventory.Items.Count; i++)
-            { 
-                if (!Inventory.TryAdd(unit.Inventory.Items[i]))
-                {
-                    return;
-                }
+            {
+                AddItemtoInventory(unit.Inventory.Items[i]);
             }
+        }
+        public void RestoreHealth(uint delta)
+        {
+            Health = Math.Min((int)MaxHealth, Health + (int)delta);
         }
     }
 }

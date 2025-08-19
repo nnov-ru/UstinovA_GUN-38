@@ -2,15 +2,15 @@
 
 namespace GamePrototype.Items.EquipItems
 {
-    public sealed class Armor : EquipItem
+    public sealed class Helmet : EquipItem
     {
-        public Armor(uint defense, uint maxdurability, string name) : base(maxdurability, name)
+        public Helmet(uint defense, uint maxdurability, string name) : base(maxdurability, name)
         {
             Defense = defense;
             Durability = (int)maxdurability;
         }
         public uint Defense { get; }
-        public override EquipSlot Slot => EquipSlot.Armor;
+        public override EquipSlot Slot => EquipSlot.Helmet;
         protected override uint GetDamaged(uint delta)
         {
             return delta;
