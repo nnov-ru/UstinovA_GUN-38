@@ -1,7 +1,8 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.WSA;
 
-namespace Netologia.Homework
+namespace CoroutineHomework
 {
 	public class Player : MonoBehaviour
 	{
@@ -18,36 +19,47 @@ namespace Netologia.Homework
 		[SerializeField]
 		private float _respawnDelay;
 
-		private void Update()
+		private void Start()
 		{
-			if (!_ready) return;
-			if (Input.GetKey(KeyCode.Space))
-			{
-				StartCoroutine(Reloader());
-				_ball.isKinematic = false;
-				_ball.transform.parent = null;
-				_ball.velocity = transform.forward * _startVelocity;
-				Destroy(_ball.gameObject, _lifetime);
-			}
-		}
-
-		private IEnumerator Reloader()
-		{
-			_ready = false;
-			yield return new WaitForSeconds(_respawnDelay);
-			Spawn();
+            _ready = true;
+            Spawn();
 		}
 
 		private void Spawn()
 		{
-			_ball = Instantiate(_ballPrefab, transform);
+            _ball = Instantiate(_ballPrefab, transform);
 			_ball.isKinematic = true;
+            _ball.transform.parent = transform;
+        }
+
+        private IEnumerator Reloader()
+		{
+			_ready = false;
+			yield return new WaitForSeconds(_respawnDelay);
+            Spawn();
 			_ready = true;
+        }
+        private void LaunchReadyBall()
+		{
+			if (_ball == null) return;
+			_ball.isKinematic = false;
+			_ball.transform.parent = null;
+			_ball.velocity = transform.forward * _startVelocity;
+            if (_ball != null)
+			{
+				Destroy(_ball.gameObject, _lifetime);
+			}
+			_ball = null;
 		}
 
-		private void Start()
+		private void Update()
 		{
-			Spawn();
+			if (!_ready) return;
+            if (Input.GetKeyDown(KeyCode.Space) && _ball != null)
+			{
+				LaunchReadyBall();
+				StartCoroutine(Reloader());
+			}
 		}
 	}
 }
