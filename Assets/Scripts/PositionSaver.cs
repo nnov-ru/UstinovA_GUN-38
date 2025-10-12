@@ -14,18 +14,11 @@ namespace DefaultNamespace
 			public Vector3 Position;
 			public float Time;
 		}
-
-		[System.Serializable]
-		public class SaveData
-		{
-			public List<Data> Records;
-
-		}
-
-		[SerializeField, ReadOnly]
+		
+		[SerializeField, ReadOnly, Tooltip("Press 'Create File' in the context menu in Inspector if no Records file exists")]
 		private TextAsset _json;
 
-		//[SerializeField, HideInInspector]
+		[field:SerializeField, HideInInspector]
 		public List<Data> Records { get; private set; }
 
 		private void Awake()
@@ -33,19 +26,19 @@ namespace DefaultNamespace
 			//todo comment: Для чего нужна эта проверка (что она позволяет избежать)?
 			//если ввод Records оказался пустым, то отсуствие этого списка не даст правильно работать ReplayMover, а при инициализации пустого списка избегается NullReferenceException
 			if (Records == null)
-			Records = new List<Data>();
-            //todo comment: Что будет, если в теле этого условия не сделать выход из метода?
-            //следующий метод сработает и запросит поле text которого нет из-за пустоты _json
+				Records = new List<Data>();
+			//todo comment: Что будет, если в теле этого условия не сделать выход из метода?
+			//следующий метод сработает и запросит поле text которого нет из-за пустоты _json
 			if (_json == null)
 			{
 				//gameObject.SetActive(false);
 				//return;
 #if UNITY_EDITOR
-				var guids = UnityEditor.AssetDatabase.FindAssets("t:TextAsset");
+				var guids = AssetDatabase.FindAssets("t:TextAsset");
 				foreach (var guid in guids)
 				{
-					var path = UnityEditor.AssetDatabase.GUIDToAssetPath(guid);
-					var asset = UnityEditor.AssetDatabase.LoadAssetAtPath<TextAsset>(path);
+					var path = AssetDatabase.GUIDToAssetPath(guid);
+					var asset = AssetDatabase.LoadAssetAtPath<TextAsset>(path);
 					if (asset != null && asset.name == "Path")
 					{
 						_json = asset;
@@ -54,43 +47,10 @@ namespace DefaultNamespace
 					}
 				}
 #endif
-            }
-            if (_json != null)
-			{
-				try
-				{
-                    if (_json != null || !string.IsNullOrEmpty(_json.text) && _json.text != "{}")
-					{
-						var saveData = JsonUtility.FromJson<SaveData>(_json.text);
-						if (saveData != null && saveData.Records != null)
-						{
-							Records = saveData.Records;
-							Debug.Log($"Loaded {Records.Count} records from JSON");
-						}
-						else
-						{
-							Debug.LogError($"saveData or Records are null after JSON parsing");
-						}
-					}
-					else
-						{
-							Debug.LogError($"JSON text is empty or invalid: '{_json?.text}'");
-						}
-				}
-				catch (Exception e)
-				{
-					Debug.LogError($"Failed to load any records from TextAsset: {e.Message}");
-				}
-				if (Records == null)
-				{
-					Debug.LogError($"[PositionSaver] After loading from JSON Records became null");
-					Records = new List<Data>();
-				}
-                Debug.Log($"[PositionSaver] After loading from JSON Records count: {Records?.Count ?? 0}");
 			}
-			else
+			if (_json != null && !string.IsNullOrEmpty(_json.text))
 			{
-				Debug.LogError($"[PositionSaver] _json is still null after search!");
+				JsonUtility.FromJsonOverwrite(_json.text, this);
 			}
 		}
         private void OnDestroy()
@@ -102,15 +62,14 @@ namespace DefaultNamespace
 			//todo comment: Зачем нужны эти проверки (что они позволляют избежать)?
 			//если предыдущая проверка каким-то образом прошла успешно, список не инициализировался, но полученные данные списка пусты, то остановка сценария позволяет не допустить ссылок и запросов на пустой список при позиционировании (первого элемента списка не будет в наличии)
 			if (Records == null || Records.Count == 0) return;
-			var data = Records;
-			var prev = data[0].Position;
+			var prev = Records[0].Position;
 			Gizmos.color = Color.green;
 			Gizmos.DrawWireSphere(prev, 0.3f);
 			//todo comment: Почему итерация начинается не с нулевого элемента?
 			//первый элемент 0 уже обработан в строке 44 в переменной prev, и здесь переходим к следующим
-			for (int i = 1; i < data.Count; i++)
+			for (int i = 1; i < Records.Count; i++)
 			{
-				var curr = data[i].Position;
+				var curr = Records[i].Position;
 				Gizmos.DrawWireSphere(curr, 0.3f);
 				Gizmos.DrawLine(prev, curr);
 				prev = curr;
@@ -118,39 +77,26 @@ namespace DefaultNamespace
 		}
 		public void SaveToJson()
 		{
-			//if (_json != null && Records != null)
-			if (Records == null || Records.Count == 0)
+			if (_json != null && Records != null && Records.Count > 0)
 			{
-				
-				Debug.LogWarning($"No records to save ! Null records: {Records == null}, count: {Records?.Count ?? 0}");
-				return;
-			}
 #if UNITY_EDITOR
-			try
-			{ 
-				if (_json == null)
+				try
 				{
-					CreateFile();
-					if (_json == null)
-					{
-						Debug.LogError($"Failed to create Json file");
-						return; 
-					}
-				}
-				var saveData = new SaveData { Records = this.Records };
-				string jsonData = JsonUtility.ToJson(saveData, true);
-				string path = UnityEditor.AssetDatabase.GetAssetPath(_json);
+					string jsonData = JsonUtility.ToJson(this, true);
+					string path = AssetDatabase.GetAssetPath(_json);
 
-				File.WriteAllText(path, jsonData);
-				UnityEditor.AssetDatabase.Refresh();
-				Debug.Log($"Successfully saved {Records.Count} records to {path}");
-			}
-			catch (Exception e)
-			{
-                Debug.LogError($"Failed to save records: {e.Message}");
-            }
+					File.WriteAllText(path, jsonData);
+					AssetDatabase.Refresh();
+					Debug.Log($"Successfully saved {Records.Count} records to {path}");
+				}
+				catch (Exception e)
+				{
+					Debug.LogError($"Failed to save records: {e.Message}");
+				}
 #endif
+			}
 		}
+
         [ContextMenu("Create File")]
 		private void CreateFile()
 		{
@@ -161,27 +107,25 @@ namespace DefaultNamespace
 			//todo comment: Подумайте для чего нужна эта строка? (а потом проверьте догадку, закомментировав) 
 			//следующий метод Refresh не сможет осуществиться, т.к. при создании/воссоздании файл будет занят для записи, во избежание этого файл выбрасывается из памяти
 			stream.Dispose();
-			UnityEditor.AssetDatabase.Refresh();
+			AssetDatabase.Refresh();
 			//В Unity можно искать объекты по их типу, для этого используется префикс "t:"
 			//После нахождения, Юнити возвращает массив гуидов (которые в мета-файлах задаются, например)
-			var guids = UnityEditor.AssetDatabase.FindAssets("t:TextAsset");
+			var guids = AssetDatabase.FindAssets("t:TextAsset");
 			foreach (var guid in guids)
 			{
 				//Этой командой можно получить путь к ассету через его гуид
-				var path = UnityEditor.AssetDatabase.GUIDToAssetPath(guid);
+				var path = AssetDatabase.GUIDToAssetPath(guid);
 				//Этой командой можно загрузить сам ассет
-				var asset = UnityEditor.AssetDatabase.LoadAssetAtPath<TextAsset>(path);
+				var asset = AssetDatabase.LoadAssetAtPath<TextAsset>(path);
 				//todo comment: Для чего нужны эти проверки?
 				//для избежания обработки пустых эссетов при неудачном поиске и эссетов с именем, не равным "Path"
 				if(asset != null && asset.name == "Path")
 				{
 					_json = asset;
-					UnityEditor.EditorUtility.SetDirty(this);
-					UnityEditor.AssetDatabase.SaveAssets();
-					UnityEditor.AssetDatabase.Refresh();
+					EditorUtility.SetDirty(this);
 					//todo comment: Почему мы здесь выходим, а не продолжаем итерироваться?
 					//удовлетворяющий требованиям имени эссет найден, предполагается что он в единственном экземпляре или других с такими именем не имеется, дальнейший перебор бессмыслен
-					return;
+					break;
 				}
 			}
 #endif
