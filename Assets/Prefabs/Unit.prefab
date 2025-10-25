@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 6842722933288927099}
   - component: {fileID: 6579712112465934261}
   - component: {fileID: 8489525276072359015}
+  - component: {fileID: -6638343460873257352}
   - component: {fileID: 6284271836452743404}
-  - component: {fileID: -407871149617434511}
   m_Layer: 6
   m_Name: Unit
   m_TagString: Untagged
@@ -30,7 +30,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 5, y: 10, z: 5}
+  m_LocalScale: {x: 1.75, y: 0.5, z: 1.75}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -85,6 +85,23 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &-6638343460873257352
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 561357831643517751}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6544b358910c42342a3c9148e7e3292a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _isWhite: 0
+  _speed: 5
+  _jumpHeight: 1
+  _isQueen: 0
+  _teamdisplay: Player1
 --- !u!136 &6284271836452743404
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -105,18 +122,6 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
-  m_Height: 1
+  m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &-407871149617434511
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 561357831643517751}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6544b358910c42342a3c9148e7e3292a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

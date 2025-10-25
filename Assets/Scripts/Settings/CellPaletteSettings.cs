@@ -11,7 +11,7 @@ namespace Unity3D
         public Material MoveToCell { get; private set; }
         [field: SerializeField, Tooltip("Eligible for attacking against")]
         public Material AttackCell { get; private set; }
-        [field: SerializeField, Tooltip("Eligible for moving to or attacking against")]
-        public Material MoveToAttackCell { get; private set; }
+        //[field: SerializeField, Tooltip("Just moved from and to")]
+        //public Material MovedToAndFrom { get; private set; }
     }
 }

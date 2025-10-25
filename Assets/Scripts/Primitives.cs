@@ -26,4 +26,27 @@ namespace Unity3D
             Cell = cell; 
         }
     }
-}
+    public enum GameStatus
+    {
+        Error = 0,
+        Locked = 1,
+        Unlocked = 2,
+        Selecting = 3,
+        Motion = 4,
+        Attacking = 5,
+        Confirmed = 6
+    }
+    public enum GameEvent
+    {
+        Empty = 0,
+        Select = 1,
+        Cancel = 2,
+        Confirm = 3
+    }
+    //temp
+    public enum IsQueen
+    {
+        No = 0,
+        Yes = 1,
+    }
+    }
