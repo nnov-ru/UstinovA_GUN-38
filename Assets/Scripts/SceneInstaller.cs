@@ -12,10 +12,6 @@ namespace Unity3D
         private InputManager _inputManager;
         [SerializeField]
         private CellPaletteSettings _cellPaletteSettings;
-        //[SerializeField]
-        //private TurnPanelSettings _turnPanelSettings;
-        [SerializeField]
-        private UnitGameSettings _unitGameSettings;
         [SerializeField]
         private TurnIndicator _turnIndicator;
         public override void InstallBindings()
@@ -26,8 +22,6 @@ namespace Unity3D
             Container.BindInterfacesAndSelfTo<Battlefield>().AsSingle();
             Container.BindInstance(_cellPaletteSettings).AsSingle();
 
-            //Container.BindInstance(_turnPanelSettings).AsSingle();
-            Container.BindInstance(_unitGameSettings).AsSingle();
             Container.BindInstance(_turnIndicator).AsSingle();
             Container.Bind<InputManager>().FromComponentInHierarchy().AsSingle();
 

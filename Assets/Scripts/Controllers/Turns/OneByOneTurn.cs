@@ -17,7 +17,7 @@ namespace Unity3D
             _index = (_index + 1) % _teams.Count;
         }
 
-        public OneByOneTurn(IReadOnlyList<Team> teams, UnitGameSettings settings)
+        public OneByOneTurn(IReadOnlyList<Team> teams)
         {
             _white = UnityEngine.Random.value < 0.5f ? Team.Player1 : Team.Player2;
             _teams = new List<Team> { _white, Black };
