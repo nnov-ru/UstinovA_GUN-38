@@ -17,34 +17,48 @@ namespace Unity3D
         //private CellPaletteSettings _cellPaletteSettings;
         private InputManager _inputManager;     //injected
         private PlayerController _playerController; //injected
+        private ITurn _turn; //injected
 
         public Battlefield Battlefield => _cellManager;
         [Inject]
-        private void Construct(PlayerController playerController, IGameplayCommand command, ISharedData data, SignalBus signal, Battlefield cellManager, Controls.GameActions controls, InputManager inputManager, ITurn iturn)
+        private void Construct(PlayerController playerController, IGameplayCommand command, ISharedData data, SignalBus signal, Battlefield cellManager, Controls.GameActions controls, InputManager inputManager, ITurn turn)
         {
-            (_playerController, _command, _data, _signal, _cellManager, _controls, _inputManager) = (playerController, command, data, signal, cellManager, controls, inputManager);
+            (_playerController, _command, _data, _signal, _cellManager, _controls, _inputManager, _turn) = (playerController, command, data, signal, cellManager, controls, inputManager, turn);
 
             _cellManager.OnCellClicked += _command.Interact;
             _inputManager.OnCancelPressed += OnCancelHandler;
             _inputManager.OnRestartPerformed += OnRestartHandler;
             _inputManager.OnConfirmPressed += OnConfirmHandler;
-            //_signal.Subscribe<GameEvent>(Callback);
+            _signal.Subscribe<GameEvent>(Callback);
             //SubscribeToCellEvents();
         }
-        //private void Callback(GameEvent arg)
-        //{
-        //    if (arg is not GameEvent.Select) return; //ивент селект? уточнить зачем он
-        //    switch (_data.Status)
-        //    {
-        //        case GameStatus.Selecting:
-        //        case GameStatus.Motion:
-        //        case GameStatus.Attacking:
-        //        case GameStatus.Unlocked:
-        //        case GameStatus.Locked:
-        //        case GameStatus.Confirmed:
-        //            break;
-        //    }
-        //}
+        private void Callback(GameEvent arg)
+        {
+            if (arg == GameEvent.Empty)
+            {
+                _data.Status = GameStatus.Locked;
+                _data.Status = GameStatus.Unlocked;
+                if (_data.SelectedUnit != null)
+                {
+                    _data.SelectedUnit.Cell.ResetSelect();
+                    _data.SelectedUnit = null;
+                }
+                if (_data.Target != null) _data.Target = null;
+                if (_data.Destination != null) _data.Destination = null;
+                return;
+            }
+            //    if (arg is not GameEvent.Select) return; //ивент селект? уточнить зачем он
+            //    switch (_data.Status)
+            //    {
+            //        case GameStatus.Selecting:
+            //        case GameStatus.Motion:
+            //        case GameStatus.Attacking:
+            //        case GameStatus.Unlocked:
+            //        case GameStatus.Locked:
+            //        case GameStatus.Confirmed:
+            //            break;
+            //    }
+        }
         public void OpenMainScene()
         {
             throw new NotImplementedException();
