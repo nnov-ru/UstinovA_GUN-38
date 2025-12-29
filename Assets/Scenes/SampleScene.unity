@@ -1173,6 +1173,7 @@ GameObject:
   - component: {fileID: 214914582}
   - component: {fileID: 214914581}
   - component: {fileID: 214914583}
+  - component: {fileID: 214914584}
   m_Layer: 7
   m_Name: characterWhite (8)
   m_TagString: Untagged
@@ -1282,6 +1283,27 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.155
+--- !u!114 &214914584
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 214914580}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a262af8ad38d4f145b3f74a87aae41a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _radius: 2.9
+  _angle: 125
+  _player: {fileID: 635521252}
+  _targetMask:
+    serializedVersion: 2
+    m_Bits: 8
+  _obstacleMask:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!1 &264311009
 GameObject:
   m_ObjectHideFlags: 0
@@ -1339,6 +1361,7 @@ GameObject:
   - component: {fileID: 302545905}
   - component: {fileID: 302545904}
   - component: {fileID: 302545906}
+  - component: {fileID: 302545907}
   m_Layer: 7
   m_Name: characterWhite (2)
   m_TagString: Untagged
@@ -1448,6 +1471,27 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.155
+--- !u!114 &302545907
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 302545903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a262af8ad38d4f145b3f74a87aae41a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _radius: 2.9
+  _angle: 125
+  _player: {fileID: 635521252}
+  _targetMask:
+    serializedVersion: 2
+    m_Bits: 8
+  _obstacleMask:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!1 &373061941
 GameObject:
   m_ObjectHideFlags: 0
@@ -1579,6 +1623,7 @@ GameObject:
   - component: {fileID: 389561548}
   - component: {fileID: 389561547}
   - component: {fileID: 389561549}
+  - component: {fileID: 389561550}
   m_Layer: 7
   m_Name: characterWhite (9)
   m_TagString: Untagged
@@ -1688,6 +1733,27 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.155
+--- !u!114 &389561550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 389561546}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a262af8ad38d4f145b3f74a87aae41a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _radius: 2.9
+  _angle: 125
+  _player: {fileID: 635521252}
+  _targetMask:
+    serializedVersion: 2
+    m_Bits: 8
+  _obstacleMask:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!1 &414427961
 GameObject:
   m_ObjectHideFlags: 0
@@ -1699,6 +1765,7 @@ GameObject:
   - component: {fileID: 414427963}
   - component: {fileID: 414427962}
   - component: {fileID: 414427964}
+  - component: {fileID: 414427965}
   m_Layer: 7
   m_Name: characterWhite (7)
   m_TagString: Untagged
@@ -1808,6 +1875,27 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.155
+--- !u!114 &414427965
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 414427961}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a262af8ad38d4f145b3f74a87aae41a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _radius: 2.9
+  _angle: 125
+  _player: {fileID: 635521252}
+  _targetMask:
+    serializedVersion: 2
+    m_Bits: 8
+  _obstacleMask:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!1 &498113547
 GameObject:
   m_ObjectHideFlags: 0
@@ -6385,6 +6473,7 @@ GameObject:
   - component: {fileID: 715020443}
   - component: {fileID: 715020442}
   - component: {fileID: 715020444}
+  - component: {fileID: 715020445}
   m_Layer: 7
   m_Name: characterWhite (5)
   m_TagString: Untagged
@@ -6494,6 +6583,27 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.155
+--- !u!114 &715020445
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 715020441}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a262af8ad38d4f145b3f74a87aae41a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _radius: 2.9
+  _angle: 125
+  _player: {fileID: 635521252}
+  _targetMask:
+    serializedVersion: 2
+    m_Bits: 8
+  _obstacleMask:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!1 &822022562
 GameObject:
   m_ObjectHideFlags: 0
@@ -7499,6 +7609,7 @@ GameObject:
   - component: {fileID: 1501058786}
   - component: {fileID: 1501058785}
   - component: {fileID: 1501058787}
+  - component: {fileID: 1501058788}
   m_Layer: 7
   m_Name: characterWhite (3)
   m_TagString: Untagged
@@ -7608,6 +7719,27 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.155
+--- !u!114 &1501058788
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1501058784}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a262af8ad38d4f145b3f74a87aae41a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _radius: 2.9
+  _angle: 125
+  _player: {fileID: 635521252}
+  _targetMask:
+    serializedVersion: 2
+    m_Bits: 8
+  _obstacleMask:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!1 &1526121005
 GameObject:
   m_ObjectHideFlags: 0
@@ -7739,6 +7871,7 @@ GameObject:
   - component: {fileID: 1553450026}
   - component: {fileID: 1553450025}
   - component: {fileID: 1553450027}
+  - component: {fileID: 1553450028}
   m_Layer: 7
   m_Name: characterWhite (4)
   m_TagString: Untagged
@@ -7848,6 +7981,27 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.155
+--- !u!114 &1553450028
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1553450024}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a262af8ad38d4f145b3f74a87aae41a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _radius: 2.9
+  _angle: 125
+  _player: {fileID: 635521252}
+  _targetMask:
+    serializedVersion: 2
+    m_Bits: 8
+  _obstacleMask:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!1 &1578344863
 GameObject:
   m_ObjectHideFlags: 0
@@ -9673,6 +9827,7 @@ GameObject:
   - component: {fileID: 1872849952}
   - component: {fileID: 1872849951}
   - component: {fileID: 1872849953}
+  - component: {fileID: 1872849954}
   m_Layer: 7
   m_Name: characterWhite (10)
   m_TagString: Untagged
@@ -9782,6 +9937,27 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.155
+--- !u!114 &1872849954
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1872849950}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a262af8ad38d4f145b3f74a87aae41a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _radius: 2.9
+  _angle: 125
+  _player: {fileID: 635521252}
+  _targetMask:
+    serializedVersion: 2
+    m_Bits: 8
+  _obstacleMask:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!1 &2011551418
 GameObject:
   m_ObjectHideFlags: 0
@@ -10080,6 +10256,7 @@ GameObject:
   - component: {fileID: 2085426338}
   - component: {fileID: 2085426337}
   - component: {fileID: 2085426339}
+  - component: {fileID: 2085426340}
   m_Layer: 7
   m_Name: characterWhite (11)
   m_TagString: Untagged
@@ -10189,6 +10366,27 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.155
+--- !u!114 &2085426340
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2085426336}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a262af8ad38d4f145b3f74a87aae41a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _radius: 2.9
+  _angle: 125
+  _player: {fileID: 635521252}
+  _targetMask:
+    serializedVersion: 2
+    m_Bits: 8
+  _obstacleMask:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!1 &2090263981
 GameObject:
   m_ObjectHideFlags: 0
@@ -10200,6 +10398,7 @@ GameObject:
   - component: {fileID: 2090263983}
   - component: {fileID: 2090263982}
   - component: {fileID: 2090263984}
+  - component: {fileID: 2090263985}
   m_Layer: 7
   m_Name: characterWhite (6)
   m_TagString: Untagged
@@ -10309,6 +10508,27 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.155
+--- !u!114 &2090263985
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2090263981}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a262af8ad38d4f145b3f74a87aae41a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _radius: 2.9
+  _angle: 125
+  _player: {fileID: 635521252}
+  _targetMask:
+    serializedVersion: 2
+    m_Bits: 8
+  _obstacleMask:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!1 &2110287650
 GameObject:
   m_ObjectHideFlags: 0
