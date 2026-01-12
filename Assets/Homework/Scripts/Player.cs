@@ -1,65 +1,105 @@
 ﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.WSA;
 
-namespace CoroutineHomework
+public class Player : MonoBehaviour
 {
-	public class Player : MonoBehaviour
+	[System.Serializable]
+	public class BallType
 	{
-		private bool _ready;
-		private Rigidbody _ball;
-		
-		[SerializeField]
-		private Rigidbody _ballPrefab;
-		[SerializeField]
-		private float _startVelocity;
-		[SerializeField]
-		private float _lifetime;
+		public string name;
+		public float size = 1f;
+		public float mass = 1f;
+		public float startVelocity = 15f;
+		public Color color = Color.white;
+	}
+	private bool _ready;
+	private Rigidbody _ball;
+	private Gates _gates;
 
-		[SerializeField]
-		private float _respawnDelay;
+	[SerializeField]
+	private BallType[] _ballTypes;
+	[SerializeField]
+	private int _selectedBallType = 0;
+	[SerializeField]
+	private Rigidbody _ballPrefab;
+	[SerializeField]
+	private float _lifetime = 15f;
 
-		private void Start()
+	[SerializeField]
+	private float _respawnDelay = 4f;
+	[SerializeField]
+	private Transform _respawnPoint;
+
+	private void Start()
+	{
+		_gates = FindObjectOfType<Gates>();
+		_ready = true;
+		if (_respawnPoint == null) _respawnPoint = transform;
+		Spawn();
+	}
+
+	private void Spawn()
+	{
+		if (_ballPrefab == null) return;
+		_ball = Instantiate(_ballPrefab, _respawnPoint.position, _respawnPoint.rotation);
+		_ball.isKinematic = true;
+		_ball.transform.parent = transform;
+
+		if (_ball == null || _selectedBallType < 0 || _selectedBallType >= _ballTypes.Length) return;
+		BallType type = _ballTypes[_selectedBallType];
+		_ball.transform.localScale = Vector3.one * type.size;
+		_ball.mass = type.mass;
+		MeshRenderer renderer = _ball.GetComponent<MeshRenderer>();
+		if (renderer != null ) renderer.material.color = type.color;
+	}
+
+	private IEnumerator Reloader()
+	{
+		_ready = false;
+		yield return new WaitForSeconds(_respawnDelay);
+		Spawn();
+		_ready = true;
+	}
+	private void LaunchReadyBall()
+	{
+		if (_ball == null) return;
+		_ball.isKinematic = false;
+		_ball.transform.parent = null;
+		_ball.velocity = transform.forward * _ballTypes[_selectedBallType].startVelocity;
+		if (_ball != null)
 		{
-            _ready = true;
-            Spawn();
+			Destroy(_ball.gameObject, _lifetime);
 		}
+		if (_gates != null) _gates.StartStopTracking(_lifetime);
+		_ball = null;
+		StartCoroutine(Reloader());
+	}
 
-		private void Spawn()
+	private void Update()
+	{
+		if (!_ready) return;
+		if (Input.GetMouseButtonDown(0) && _ball != null)
 		{
-            _ball = Instantiate(_ballPrefab, transform);
-			_ball.isKinematic = true;
-            _ball.transform.parent = transform;
-        }
-
-        private IEnumerator Reloader()
+			LaunchReadyBall();
+			StartCoroutine(Reloader());
+		}
+		for (int i = 0; i < Mathf.Min(_ballTypes.Length, 9); i++)
 		{
-			_ready = false;
-			yield return new WaitForSeconds(_respawnDelay);
-            Spawn();
-			_ready = true;
-        }
-        private void LaunchReadyBall()
-		{
-			if (_ball == null) return;
-			_ball.isKinematic = false;
-			_ball.transform.parent = null;
-			_ball.velocity = transform.forward * _startVelocity;
-            if (_ball != null)
+			if (Input.GetKeyDown(KeyCode.Alpha1 + i))
 			{
-				Destroy(_ball.gameObject, _lifetime);
-			}
-			_ball = null;
-		}
-
-		private void Update()
-		{
-			if (!_ready) return;
-            if (Input.GetKeyDown(KeyCode.Space) && _ball != null)
-			{
-				LaunchReadyBall();
-				StartCoroutine(Reloader());
+				_selectedBallType = i;
+				Debug.Log($"You chose Ball Type {_ballTypes[i].name}");
+				if (_ball != null)
+				{
+                    Destroy(_ball.gameObject);
+                    Spawn();
+				}
 			}
 		}
+		//if (Input.GetKeyDown(KeyCode.R))
+		//{
+			//Gates gates = FindObjectOfType<Gates>();
+			//if (gates != null) gates.ResetGame();
+		//}
 	}
 }
