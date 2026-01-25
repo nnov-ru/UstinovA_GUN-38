@@ -1,107 +1,212 @@
+﻿using UnityEngine;
 using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 public class MoverScript : MonoBehaviour
 {
-    public enum CoordinatesMode { Global, Local }
+    [SerializeField] private float speed = 1.5f;
+    [SerializeField] private float turnSpeed = 90f;
+    [SerializeField] private float sensorDistance = 0.8f;
+    [SerializeField] private LayerMask obstacleLayer;
 
-    [SerializeField] private CoordinatesMode _coordinatesMode = CoordinatesMode.Global;
-    [SerializeField] private Vector3 _start;
-    [SerializeField] private Vector3 _end;
-    [SerializeField] private float _speed = 1f;
-    [SerializeField] private float _delay = 1f;
-
-    private Rigidbody _rigidbody;
-    private Vector3 _initialPosition;
+    private bool isTurning = false;
+    private float halfLength;
+    private float halfWidth;
+    private float nextRandomTurnTime;
 
     private void Start()
     {
-        _rigidbody = GetComponent<Rigidbody>();
-        _initialPosition = _rigidbody.position;
-        StartCoroutine(MovementCoroutine());
+        halfLength = transform.localScale.z * 0.5f;
+        halfWidth = transform.localScale.x * 0.5f;
+        nextRandomTurnTime = Time.time + Random.Range(3f, 8f);
     }
 
-    private IEnumerator MovementCoroutine()
+    private void Update()
     {
-        yield return new WaitForFixedUpdate();
-        Vector3 start = GetPosition(_start);
-        Vector3 end = GetPosition(_end);
-
-        while (true)
+        if (!isTurning && Time.time >= nextRandomTurnTime)
         {
-            yield return StartCoroutine(MoveBetween(start, end));
-            yield return new WaitForSeconds(_delay);
-            yield return StartCoroutine(MoveBetween(end, start));
-            yield return new WaitForSeconds(_delay);
-        } 
-    }
-    private Vector3 GetPosition(Vector3 inputPosition)
-    {
-        return _coordinatesMode == CoordinatesMode.Local
-            ? _initialPosition + inputPosition
-            : inputPosition;
-            }
-    private IEnumerator MoveBetween(Vector3 from, Vector3 to)
-    { 
-            while (Vector3.Distance(_rigidbody.position, to) > 0f)
-            {
-                    Vector3 newPosition = Vector3.MoveTowards(
-                        _rigidbody.position, 
-                        to,
-                        _speed * Time.fixedDeltaTime
-                        );
+            StartCoroutine(RandomTurn90());
+            nextRandomTurnTime = Time.time + Random.Range(5f, 10f);
+        }
+        if (isTurning) return;
 
-                    _rigidbody.MovePosition( newPosition );
-                    yield return new WaitForFixedUpdate();
-            }
-            _rigidbody.MovePosition(to);
+        transform.Translate(Vector3.forward * speed * Time.deltaTime, Space.Self);
+
+        if (CheckFrontObstacle())
+        {
+            StartCoroutine(FindAndTurn());
+        }
     }
+
+    private bool CheckFrontObstacle()
+    {
+        Vector3 frontCenter = transform.position + transform.forward * halfLength;
+
+        Ray centerRay = new Ray(frontCenter, transform.forward);
+        Ray leftRay = new Ray(frontCenter + transform.right * -halfWidth, transform.forward);
+        Ray rightRay = new Ray(frontCenter + transform.right * halfWidth, transform.forward);
+
+        bool centerHit = Physics.Raycast(centerRay, sensorDistance, obstacleLayer);
+        bool leftHit = Physics.Raycast(leftRay, sensorDistance, obstacleLayer);
+        bool rightHit = Physics.Raycast(rightRay, sensorDistance, obstacleLayer);
+
+        Debug.DrawRay(centerRay.origin, centerRay.direction * sensorDistance,
+                     centerHit ? Color.red : Color.green);
+        Debug.DrawRay(leftRay.origin, leftRay.direction * sensorDistance,
+                     leftHit ? Color.red : Color.yellow);
+        Debug.DrawRay(rightRay.origin, rightRay.direction * sensorDistance,
+                     rightHit ? Color.red : Color.yellow);
+
+        return centerHit || leftHit || rightHit;
+    }
+    private IEnumerator FindAndTurn()
+    {
+        isTurning = true;
+
+        yield return new WaitForSeconds(0.1f);
+        float bestAngle = FindBestTurnAngle();
+        if (bestAngle != 0)
+        {
+            yield return StartCoroutine(ExecuteTurn(bestAngle));
+        }
+        else
+        {
+            yield return StartCoroutine(BackOutAndTurn());
+        }
+        yield return new WaitForSeconds(0.2f);
+        isTurning = false;
+    }
+
+    private float FindBestTurnAngle()
+    {
+        bool checkLeftFirst = Random.Range(0, 2) == 0;
+
+        if (checkLeftFirst)
+        {
+            if (CheckDirectionClear(-90f)) return -90f;
+            if (CheckDirectionClear(90f)) return 90f;
+        }
+        else
+        {
+            if (CheckDirectionClear(90f)) return 90f;
+            if (CheckDirectionClear(-90f)) return -90f;
+        }
+
+        if (CheckDirectionClear(180f)) return 180f;
+
+        return 0f;
+    }
+
+    private bool CheckDirectionClear(float turnAngle)
+    {
+        Vector3 testDirection = Quaternion.Euler(0, turnAngle, 0) * transform.forward;
+        Vector3 testFrontPoint = transform.position + testDirection * halfLength;
+        Ray centerRay = new Ray(testFrontPoint, testDirection);
+        Ray leftRay = new Ray(testFrontPoint + Quaternion.Euler(0, turnAngle, 0) * transform.right * -halfWidth, testDirection);
+        Ray rightRay = new Ray(testFrontPoint + Quaternion.Euler(0, turnAngle, 0) * transform.right * halfWidth, testDirection);
+
+        bool centerClear = !Physics.Raycast(centerRay, sensorDistance * 1.5f, obstacleLayer);
+        bool leftClear = !Physics.Raycast(leftRay, sensorDistance, obstacleLayer);
+        bool rightClear = !Physics.Raycast(rightRay, sensorDistance, obstacleLayer);
+
+        if (isTurning)
+        {
+            Debug.DrawRay(centerRay.origin, centerRay.direction * sensorDistance * 1.5f,
+                         centerClear ? Color.blue : Color.gray, 0.5f);
+        }
+
+        return centerClear && leftClear && rightClear;
+    }
+
+    private IEnumerator ExecuteTurn(float turnAngle)
+    {
+        //Debug.Log($"Turning: {turnAngle}°");
+
+        float startAngle = transform.eulerAngles.y;
+        float rawTarget = startAngle + turnAngle;
+        float targetAngle = Mathf.Round(rawTarget / 90f) * 90f;
+        targetAngle = (targetAngle % 360f + 360f) % 360f;
+
+        float duration = Mathf.Abs(turnAngle) / turnSpeed;
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / duration);
+
+            float currentAngle = Mathf.LerpAngle(startAngle, targetAngle, t);
+            float snappedAngle = SnapTo90Degrees(currentAngle);
+            transform.rotation = Quaternion.Euler(0, snappedAngle, 0);
+
+            yield return null;
+        }
+
+        float finalAngle = SnapTo90Degrees(transform.eulerAngles.y);
+        transform.rotation = Quaternion.Euler(0, finalAngle, 0);
+    }
+
+    private float SnapTo90Degrees(float angle)
+    {
+        angle = (angle % 360f + 360f) % 360f;
+        float remainder = angle % 90f;
+
+        if (remainder > 45f)
+            return Mathf.Ceil(angle / 90f) * 90f;
+        else
+            return Mathf.Floor(angle / 90f) * 90f;
+    }
+
+    private IEnumerator BackOutAndTurn()
+    {
+        Debug.Log("No clear path - backing out");
+
+        float backTime = 0.8f;
+        float elapsed = 0f;
+
+        while (elapsed < backTime)
+        {
+            elapsed += Time.deltaTime;
+            transform.Translate(-Vector3.forward * speed * 0.5f * Time.deltaTime, Space.Self);
+            yield return null;
+        }
+
+        float bestAngle = FindBestTurnAngle();
+        if (bestAngle != 0)
+        {
+            yield return StartCoroutine(ExecuteTurn(bestAngle));
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (((1 << collision.gameObject.layer) & obstacleLayer) != 0 && !isTurning)
+        {
+            Debug.Log($"Collision: {collision.gameObject.name}");
+
+            Vector3 pushDir = (transform.position - collision.contacts[0].point).normalized;
+            transform.position += pushDir * 0.3f;
+
+            transform.Rotate(0, 180f, 0);
+        }
+    }
+
     private void OnDrawGizmos()
     {
-        Vector3 start = GetPositionGiz(_start);
-        Vector3 end = GetPositionGiz(_end);
-
-        Gizmos.color = Color.green;
-        Gizmos.DrawSphere(start, 0.5f);
+        if (!Application.isPlaying) return;
+        
+        Vector3 frontCenter = transform.position + transform.forward * halfLength;
         Gizmos.color = Color.red;
-        Gizmos.DrawSphere(end, 0.5f);
-
-        Gizmos.color = Color.green;
-        Gizmos.DrawLine(start, end);
+        Gizmos.DrawSphere(frontCenter, 0.1f);
+        Gizmos.DrawSphere(frontCenter + transform.right* -halfWidth, 0.08f);
+        Gizmos.DrawSphere(frontCenter + transform.right* halfWidth, 0.08f);
     }
-    private Vector3 GetPositionGiz(Vector3 inputPosition)
+    private IEnumerator RandomTurn90()
     {
-        if (Application.isPlaying)
-        {
-            return GetPosition(inputPosition);
-        }
-        else
-        {
-            return _coordinatesMode == CoordinatesMode.Local
-                ? transform.position + inputPosition 
-                : inputPosition;
-        }
+        isTurning = true;
+        yield return new WaitForSeconds(0.1f);
+        float turnAngle = Random.Range(0, 2) == 0 ? -90f : 90f;
+        yield return StartCoroutine(ExecuteTurn(turnAngle));
+        yield return new WaitForSeconds(0.2f);
+        isTurning=false;
     }
-#if UNITY_EDITOR
-    [ContextMenu("Switch Coordinates Mode")]
-    private void SwitchCoordinatesMode()
-    {
-        if (_coordinatesMode == CoordinatesMode.Local)
-        {
-            Vector3 currentWorldPos = Application.isPlaying ? _initialPosition : transform.position;
-            _start = currentWorldPos + _start;
-            _end = currentWorldPos + _end;
-            _coordinatesMode = CoordinatesMode.Global;
-        }
-        else
-        {
-            Vector3 currentWorldPos = Application.isPlaying ? _initialPosition : transform.position;
-            _start = _start - currentWorldPos;
-            _end = _end - currentWorldPos;
-            _coordinatesMode = CoordinatesMode.Local;
-        }
-        UnityEditor.EditorUtility.SetDirty(this);
-    }
-#endif
 }
